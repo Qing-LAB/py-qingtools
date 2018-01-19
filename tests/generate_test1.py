@@ -1,5 +1,6 @@
 import random
 
+
 def generate_num() -> str:
     while True:
         oplist = (" + ", " - ", " - ", " - ")
