@@ -68,7 +68,7 @@ if __name__ == '__main__':
     if interactive[0] == 'y' or interactive[0] == 'Y':
         interactive = True
         print("OK! Let's get started'")
-        print(f"For each calculation you have {str(trials_allowed)} allowed")
+        print(f"For each calculation you have {str(trials_allowed)} trials allowed")
     else:
         interactive = False
 
