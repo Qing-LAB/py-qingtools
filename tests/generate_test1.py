@@ -2,7 +2,20 @@ import random
 from datetime import datetime
 
 
-def generate_num() -> str:
+def generate_single_op_exp() -> str:
+    oplist = (' + ', ' - ')
+    num1 = random.randint(0, 20)
+    num2 = random.randint(0, 10)
+    op1 = random.randint(0, len(oplist) - 1)
+    order = random.randint(0, 1)
+    if order == 0:
+        str1 = str(num1) + oplist[op1] + str(num2)
+    else:
+        str1 = str(num2) + oplist[op1] + str(num1)
+    return str1
+
+
+def generate_dual_op_exp() -> str:
     while True:
         oplist = (' + ', ' - ', ' - ', ' - ')
         num1 = random.randint(0, 100)
@@ -22,39 +35,67 @@ def generate_num() -> str:
             # return str2
 
 
+def check_answer(s, trial=1):
+    flag = 0
+    count = 0
+
+    while count < trial and flag == 0:
+        try:
+            count += 1
+            ans_str = input(s + ' = ? ')
+            ans_num = int(ans_str)
+            if ans_num == eval(s):
+                print("Correct!")
+                flag = 1
+            else:
+                if count < trial:
+                    print(f'Wrong answer. Give another try!')
+                else:
+                    print(f'Wrong answer. No mor trials left. the correct answer is {str(eval(s))}')
+        except ValueError:
+            print('Invalid number!')
+
+    return flag
+
+
 if __name__ == '__main__':
     ans = []
-    total_exp = 20
+    total_run = 10
+    total_exp = 0
+    trials_allowed = 2
 
     interactive = input('Interactive test? (Y/N)')
     if interactive[0] == 'y' or interactive[0] == 'Y':
         interactive = True
         print("OK! Let's get started'")
+        print(f"For each calculation you have {str(trials_allowed)} allowed")
     else:
         interactive = False
 
     start = datetime.now()
     correct = 0
-    for i in range(0, total_exp):
-        strexp = generate_num()
+
+    for i in range(0, total_run):
+        str_exp = generate_dual_op_exp()
 
         if interactive:
-            inputcheck = True
-            while inputcheck:
-                try:
-                    userans = input(strexp + ' = ? ')
-                    usernum = int(userans)
-                    if usernum == eval(strexp):
-                        correct += 1
-                    else:
-                        print(f'error. the correct answer is {str(eval(strexp))}')
-                    inputcheck = False
-                except ValueError:
-                    print('Invalid number!')
-
+            correct += check_answer(str_exp, trials_allowed)
         else:
-            print(strexp + ' = __________')
-            ans.insert(i, strexp + " = " + str(eval(strexp)))
+            print(str_exp + ' = __________')
+            ans.insert(i, str_exp + " = " + str(eval(str_exp)))
+
+        total_exp += 1
+
+        str_exp = generate_single_op_exp()
+
+        if interactive:
+            correct += check_answer(str_exp, trials_allowed)
+        else:
+            print(str_exp + ' = __________')
+            ans.insert(i, str_exp + " = " + str(eval(str_exp)))
+
+        total_exp += 1
+
     end = datetime.now()
 
     if not interactive:
