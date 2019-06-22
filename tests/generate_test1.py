@@ -3,9 +3,9 @@ from datetime import datetime
 
 
 def generate_single_op_exp() -> str:
-    oplist = (' + ', ' - ')
+    oplist = (' + ', ' - ', ' * ')
     num1 = random.randint(0, 20)
-    num2 = random.randint(0, 10)
+    num2 = random.randint(0, 20)
     op1 = random.randint(0, len(oplist) - 1)
     order = random.randint(0, 1)
     if order == 0:
@@ -18,9 +18,9 @@ def generate_single_op_exp() -> str:
 def generate_dual_op_exp() -> str:
     while True:
         oplist = (' + ', ' - ', ' - ', ' - ')
-        num1 = random.randint(0, 100)
-        num2 = random.randint(0, 100)
-        num3 = random.randint(0, 100)
+        num1 = random.randint(0, 1000)
+        num2 = random.randint(0, 1000)
+        num3 = random.randint(0, 1000)
         op1 = random.randint(0, len(oplist) - 1)
         op2 = random.randint(0, len(oplist) - 1)
         op3 = random.randint(0, 1)  # parenthesis
@@ -30,9 +30,9 @@ def generate_dual_op_exp() -> str:
         else:
             str1 = str(num1) + oplist[op1] + str(num2)
             str2 = str1 + oplist[op2] + str(num3)
-        if eval(str1) >= 0 and eval(str2) >= 0:
-            return str2
-            # return str2
+        #if eval(str1) >= 0 and eval(str2) >= 0:
+        #    return str2
+        return str2
 
 
 def check_answer(s, trial=1):
@@ -51,7 +51,7 @@ def check_answer(s, trial=1):
                 if count < trial:
                     print(f'Wrong answer. Give another try!')
                 else:
-                    print(f'Wrong answer. No mor trials left. the correct answer is {str(eval(s))}')
+                    print(f'Wrong answer. No more trials left. the correct answer is {str(eval(s))}')
         except ValueError:
             print('Invalid number!')
 
